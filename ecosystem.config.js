@@ -14,7 +14,7 @@ module.exports = {
       repo: 'https://github.com/mityourik/movies-explorer-api',
       path: '/home/mityourik/auto-deploy-api',
       'pre-deploy-local':
-      'scp .env mityourik@51.250.11.32:/home/mityourik/auto-deploy-api/current/backend',
+      'scp .env mityourik@51.250.11.32:/home/mityourik/auto-deploy-api/current/',
       'post-deploy':
       'pwd && cd backend && npm i && pm2 startOrRestart ecosystem.config.js --env production',
     },
