@@ -15,8 +15,7 @@ module.exports = {
       path: '/home/mityourik/auto-deploy-api',
       'pre-deploy-local':
       'scp .env mityourik@51.250.11.32:/home/mityourik/auto-deploy-api/current/',
-      'post-deploy':
-      'pwd && cd current && npm i && pm2 startOrRestart ecosystem.config.js --env production',
+      'post-deploy': 'npm install && pm2 reload ecosystem.config.js --env production',
     },
   },
 };
