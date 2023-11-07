@@ -1,6 +1,9 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+
+const secretKey = 'a535ebb78341b0962c2dd583d398b3dbe41ce3c938a591c1b0f8cf9fbabbc02b';
+const envSecretKey = process.env.NODE_ENV === 'production' ? process.env.JWT_SECRET : secretKey;
 const User = require('../models/user');
 const {
   HTTP_STATUS_OK,
@@ -96,7 +99,7 @@ const login = async (req, res, next) => {
       return next(unauthorizedError);
     }
 
-    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+    const token = jwt.sign({ _id: user._id }, envSecretKey, { expiresIn: '7d' });
 
     return res.cookie('jwt', token, {
       httpOnly: true,
