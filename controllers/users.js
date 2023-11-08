@@ -10,20 +10,20 @@ const {
   HTTP_STATUS_CREATED,
 } = require('../utils/httpStatuses');
 const NotFoundError = require('../errors/NotFoundError');
-// const InternalServerError = require('../errors/InternalServerError');
 const UnauthorizedError = require('../errors/UnauthorizedError');
 const ConflictError = require('../errors/ConflictError');
+const errorsMessage = require('../utils/errorsMessages');
 
 const getUserInfo = async (req, res, next) => {
   try {
-    const user = await User.findById(req.user._id);
+    const user = await User.findById(req.user._id).select('-_id');
     if (!user) {
-      const notFoundError = new NotFoundError('Пользователь не найден');
+      const notFoundError = new NotFoundError(errorsMessage.USER_MESSAGES.NOT_FOUND);
       return next(notFoundError);
     }
 
-    // const userData = user.toObject();
-    // delete userData.password;
+    const userData = user.toObject();
+    delete userData.password;
 
     return res.status(HTTP_STATUS_OK).json(user);
   } catch (error) {
@@ -43,7 +43,7 @@ const createUser = async (req, res, next) => {
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
-      const conflictError = new ConflictError('Пользователь с таким email уже существует.');
+      const conflictError = new ConflictError(errorsMessage.USER_MESSAGES.CONFLICT_USERDATA);
       return next(conflictError);
     }
 
@@ -69,9 +69,9 @@ const updateUser = async (req, res, next, updateData) => {
     const updatedUser = await User.findByIdAndUpdate(req.user._id, updateData, {
       new: true,
       runValidators: true,
-    });
+    }).select('-_id');
     if (!updatedUser) {
-      const notFoundError = new NotFoundError('Пользователь с указанным _id не найден.');
+      const notFoundError = new NotFoundError(errorsMessage.USER_MESSAGES.NOT_FOUND);
       return next(notFoundError);
     }
     return res.status(200).json(updatedUser);
@@ -95,7 +95,7 @@ const login = async (req, res, next) => {
     const user = await User.findOne({ email }).select('+password');
 
     if (!user || !await bcrypt.compare(password, user.password)) {
-      const unauthorizedError = new UnauthorizedError('Неверный логин или пароль');
+      const unauthorizedError = new UnauthorizedError(errorsMessage.USER_MESSAGES.INVALID_USERDATA);
       return next(unauthorizedError);
     }
 
@@ -106,7 +106,7 @@ const login = async (req, res, next) => {
       sameSite: true,
       maxAge: 3600000 * 24 * 7,
       secure: process.env.NODE_ENV === 'production',
-    }).status(HTTP_STATUS_OK).json({ message: 'Вы успешно авторизировались!' });
+    }).status(HTTP_STATUS_OK).send({ message: errorsMessage.USER_MESSAGES.SUCCESS_LOGIN });
   } catch (error) {
     return next(error);
   }

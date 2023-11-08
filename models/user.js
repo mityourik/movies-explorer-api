@@ -26,11 +26,4 @@ const userSchema = new mongoose.Schema({
   versionKey: false, // убрал создание поля ключа версии записи в монго
 });
 
-// eslint-disable-next-line func-names
-userSchema.methods.toJSON = function () { // переопределен метод чтобы удалить поле password
-  const user = this.toObject();
-  delete user.password;
-  return user;
-};
-
 module.exports = mongoose.model('user', userSchema);
