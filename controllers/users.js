@@ -103,7 +103,7 @@ const login = async (req, res, next) => {
 
     return res.cookie('jwt', token, {
       httpOnly: true,
-      sameSite: true,
+      sameSite: 'none',
       maxAge: 3600000 * 24 * 7,
       secure: process.env.NODE_ENV === 'production',
     }).status(HTTP_STATUS_OK).send({ message: errorsMessage.USER_MESSAGES.SUCCESS_LOGIN });
