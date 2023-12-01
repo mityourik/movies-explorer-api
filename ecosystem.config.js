@@ -9,7 +9,7 @@ module.exports = {
   deploy: {
     production: {
       user: 'mityourik',
-      host: '51.250.11.32',
+      host: '158.160.121.117',
       ref: 'origin/level-1', // поменять?
       repo: 'https://github.com/mityourik/movies-explorer-api',
       path: '/home/mityourik/auto-deploy-api',
