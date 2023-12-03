@@ -70,6 +70,12 @@ const movieSchema = new mongoose.Schema({
   },
 }, {
   versionKey: false,
+  toJSON: { virtuals: true },
+});
+
+// Виртуальное свойство id чтобы унифицировать
+movieSchema.virtual('id').get(function getId() {
+  return this._id.toHexString();
 });
 
 module.exports = mongoose.model('movie', movieSchema);
