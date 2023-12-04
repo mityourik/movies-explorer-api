@@ -42,7 +42,7 @@ const createMovieSchema = celebrate({
 
 const deleteMovieSchema = celebrate({
   params: Joi.object().keys({
-    movieId: Joi.string().length(24).hex().required(),
+    movieId: Joi.string().hex().required(),
   }),
 });
 
