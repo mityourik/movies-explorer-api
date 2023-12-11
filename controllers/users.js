@@ -70,12 +70,19 @@ const updateUser = async (req, res, next, updateData) => {
       new: true,
       runValidators: true,
     }).select('-_id');
+
     if (!updatedUser) {
       const notFoundError = new NotFoundError(errorsMessage.USER_MESSAGES.NOT_FOUND);
       return next(notFoundError);
     }
-    return res.status(200).json(updatedUser);
+
+    return res.status(HTTP_STATUS_OK).json(updatedUser);
   } catch (error) {
+    if (error.code === 11000) {
+      const duplicateEmailError = new ConflictError(errorsMessage.USER_MESSAGES.CONFLICT_USERDATA);
+      return next(duplicateEmailError);
+    }
+
     return next(error);
   }
 };
