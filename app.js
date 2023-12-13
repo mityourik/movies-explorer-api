@@ -16,7 +16,7 @@ app.use(helmet());
 app.use(cors({
   origin:
   ['http://localhost:3000', 'http://localhost:3001',
-    'https://diploma.nomoredomainsrocks.ru', 'https://api.diploma.nomoredomainsrocks.ru'],
+    'https://diploma.nomoredomainsmonster.ru', 'https://api.diploma.nomoredomainsmonster.ru'],
   credentials: true,
 }));
 

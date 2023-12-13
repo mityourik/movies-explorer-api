@@ -34,7 +34,7 @@ const createMovieSchema = celebrate({
     image: Joi.string().required().pattern(urlRegex),
     trailerLink: Joi.string().required().pattern(urlRegex),
     thumbnail: Joi.string().required().pattern(urlRegex),
-    movieId: Joi.number().required(),
+    movieId: Joi.string().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
   }),
@@ -42,7 +42,7 @@ const createMovieSchema = celebrate({
 
 const deleteMovieSchema = celebrate({
   params: Joi.object().keys({
-    movieId: Joi.string().length(24).hex().required(),
+    movieId: Joi.string().required(),
   }),
 });
 
