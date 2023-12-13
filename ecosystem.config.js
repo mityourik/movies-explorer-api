@@ -8,13 +8,13 @@ module.exports = {
 
   deploy: {
     production: {
-      user: 'mityourik',
+      user: 'sha',
       host: '51.250.68.25',
       ref: 'origin/level-1', // поменять?
       repo: 'https://github.com/mityourik/movies-explorer-api',
       path: '/home/sha/movies-explorer-api',
       'pre-deploy-local':
-      'scp .env sha@51.250.68.25:/home/sha/movies-explorer-api/current/',
+      'scp .env sha@51.250.68.25:/home/sha/movies-explorer-api/current/backend',
       'post-deploy': 'npm install && pm2 reload ecosystem.config.js --env production',
     },
   },
